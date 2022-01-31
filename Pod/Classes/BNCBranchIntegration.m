@@ -22,14 +22,14 @@
     NSString *branchKey = [self.settings objectForKey:@"branch_key"];
     [Branch setBranchKey:branchKey];
     [[Branch getInstance] registerPluginName:@"Segment - iOS" version:@"0.1.25"];
-    
+
     [[Branch getInstance] dispatchToIsolationQueue:^{
         NSString *segmentID = [analytics getAnonymousId];
         if (segmentID.length) {
-            [[BNCPreferenceHelper preferenceHelper] setRequestMetadataKey:@"$segment_anonymous_id" value:segmentID];
+            [[BNCPreferenceHelper sharedInstance] setRequestMetadataKey:@"$segment_anonymous_id" value:segmentID];
         }
     }];
-   
+
     return self;
 }
 
@@ -284,7 +284,7 @@
         }
     }
     event.contentItems = [NSArray arrayWithArray:contentItems];
-    
+
     // Add any extra fields to customData:
     event.customData = [self stringDictionaryFromDictionary:dictionary];
 
